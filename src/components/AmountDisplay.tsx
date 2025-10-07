@@ -11,7 +11,7 @@ const AmountDisplay = ({label, amount}: AmountDisplayProps) => {
             <p className="text-sky-600 font-bold text-xl">
                 {label && `${label}: `}
             </p>
-            <p className="text-2xl font-semibold">{formatCurrency(amount)}</p>
+            <p className="text-2xl font-bold">{formatCurrency(amount)}</p>
         </div>
     )
 }
