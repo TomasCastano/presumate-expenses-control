@@ -28,7 +28,6 @@ const BudgetTracker = () => {
                 />
             </div>
 
-
         </div>
     )
 }

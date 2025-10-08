@@ -5,7 +5,8 @@ export type BudgetAction =
     { type: "add-budget", payload: { budget : number } } |
     { type: 'show-modal'} |
     { type: 'hide-modal'} |
-    { type: 'add-expense', payload: { expense: DraftExpense } }
+    { type: 'add-expense', payload: { expense: DraftExpense } } |
+    { type: 'remove-expense', payload: {id: Expense['id']} }
 
 export type BudgetState = {
     budget : number,
@@ -54,6 +55,12 @@ export const budgetReducer = (
                 expenses: [...state.expenses, expense],
                 modal: false
             }
+        case 'remove-expense' :
+            return {
+                ...state,
+                expenses: state.expenses.filter( expense => expense.id !== action.payload.id )
+            }
+
         default:
             return state
     }

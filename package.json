@@ -13,10 +13,12 @@
     "@headlessui/react": "^2.2.7",
     "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.1.13",
+    "prop-types": "^15.8.1",
     "react": "^19.1.1",
     "react-calendar": "^6.0.0",
     "react-date-picker": "^12.0.1",
     "react-dom": "^19.1.1",
+    "react-swipeable-list": "^1.10.0",
     "tailwindcss": "^4.1.13",
     "uuid": "^13.0.0"
   },
