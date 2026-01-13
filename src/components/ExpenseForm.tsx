@@ -38,23 +38,25 @@ const ExpenseForm = () => {
         })
     }
 
-    const handleChangeDate = (value : Value) => {
-        setExpense({
-            ...expense,
-            date: value
-        })
+    const handleChangeDate = (value: Value) => {
+        if (value instanceof Date) {
+            setExpense({
+                ...expense,
+                date: value
+            })
+        }
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        
+
         if (Object.values(expense).includes('')) {
             setError('Todos los cambios son obligatorios')
             return
         }
 
         if (state.editingId) {
-            dispatch({ type: 'update-expense', payload: {expense: { id: state.editingId, ...expense }}})
+            dispatch({ type: 'update-expense', payload: { expense: { id: state.editingId, ...expense } } })
         } else {
             dispatch({ type: 'add-expense', payload: { expense } })
         }
@@ -70,7 +72,11 @@ const ExpenseForm = () => {
 
     return (
         <form className="space-y-5" onSubmit={handleSubmit}>
-            <legend className="text-2xl font-bold text-center border-b-2 py-4 border-blue-500">Nuevo Gasto</legend>
+            <legend className="text-2xl font-bold text-center border-b-2 py-4 border-blue-500">
+
+                {state.editingId ? 'Actualizar Gasto' : 'Nuevo Gasto'}
+                
+            </legend>
 
             {error && <ErrorMessage>{error}</ErrorMessage>}
 
@@ -148,7 +154,11 @@ const ExpenseForm = () => {
                 />
             </div>
 
-            <input type="submit" value="Agregar Gasto" className="bg-blue-500 text-white p-2 rounded-lg mt-5 w-full cursor-pointer font-semibold" />
+            <input
+                className="bg-blue-500 text-white p-2 rounded-lg mt-5 w-full cursor-pointer font-semibold"
+                type="submit"
+                value={state.editingId ? 'Guardar Cambios' : 'Registrar Gasto'}
+            />
         </form>
     )
 }
