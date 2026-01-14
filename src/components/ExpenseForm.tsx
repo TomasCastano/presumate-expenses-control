@@ -20,12 +20,15 @@ const ExpenseForm = () => {
 
     const [error, setError] = useState('')
 
-    const { dispatch, state } = useBudget()
+    const [previousAmount, setPreviousAmount] = useState(0) 
+
+    const { dispatch, state, remainingBudget } = useBudget()
 
     useEffect(() => {
         if (state.editingId) {
             const editingExpense = state.expenses.filter(currenExpense => currenExpense.id === state.editingId)[0]
             setExpense(editingExpense)
+            setPreviousAmount(editingExpense.amount)
         }
     }, [state.editingId])
 
@@ -52,6 +55,11 @@ const ExpenseForm = () => {
 
         if (Object.values(expense).includes('')) {
             setError('Todos los cambios son obligatorios')
+            return
+        }
+
+        if ((expense.amount - previousAmount) > remainingBudget) {
+            setError('Este gasto excede el presupuesto disponible')
             return
         }
 
