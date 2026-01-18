@@ -26,7 +26,7 @@ function App() {
 			<h1 className="text-center font-bold text-4xl text-white">Control de Gastos</h1>
 		</header>
 
-		<div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg mt-10 p-10">
+		<div className="flex justify-center mt-10">
 			{isValidBudget ? <BudgetTracker /> : <BudgetForm />}
 		</div>
 

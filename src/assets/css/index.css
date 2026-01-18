@@ -14,3 +14,8 @@
 .swipeable-list .swipe-action {
   @apply flex justify-center items-center
 }
+
+@theme {
+	--color-primary: #0084d1;
+	--color-secondary: #737373;
+}
