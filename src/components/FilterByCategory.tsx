@@ -1,6 +1,7 @@
 import { ChangeEvent } from "react"
 import { categories } from "../data/categories"
 import { useBudget } from "../hooks/useBudget"
+import Card from "./UI/Card"
 
 const FilterByCategory = () => {
 
@@ -11,7 +12,7 @@ const FilterByCategory = () => {
     }
 
     return (
-        <div className='max-w-3xl mx-auto bg-white shadow-lg rounded-lg mt-10 p-10'>
+        <Card>
             <form>
                 <div className="flex flex-col md:flex-row md:items-center gap-5">
                     <label htmlFor="category">Filtrar Gastos</label>
@@ -33,7 +34,7 @@ const FilterByCategory = () => {
                     </select>
                 </div>
             </form>
-        </div>
+        </Card>
     )
 }
 

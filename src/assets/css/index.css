@@ -16,6 +16,9 @@
 }
 
 @theme {
+	--color-primary-hover: #0069a8;
 	--color-primary: #0084d1;
 	--color-secondary: #737373;
+	--color-black: #14181f;
+
 }
