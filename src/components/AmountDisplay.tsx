@@ -7,11 +7,11 @@ type AmountDisplayProps = {
 
 const AmountDisplay = ({label, amount}: AmountDisplayProps) => {
     return (
-        <div className="flex items-center justify-between gap-3">
-            <p className="text-sky-600 font-bold text-xl">
-                {label && `${label}: `}
+        <div className="flex flex-col items-start justify-between gap-1 w-full">
+            <p className="text-secondary font-medium text-sm">
+                {label && `${label}`}
             </p>
-            <p className="text-2xl font-bold">{formatCurrency(amount)}</p>
+            <p className="text-2xl font-bold text-black">{formatCurrency(amount)}</p>
         </div>
     )
 }

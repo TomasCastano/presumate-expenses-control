@@ -1,8 +1,13 @@
-import React from 'react'
+type CardProps = {
+    children: React.ReactNode
+    className?: string
+}
 
-const Card = ({children}: {children: React.ReactNode}) => {
+const Card = ({children, className}: CardProps) => {
   return (
-    <div className="bg-white rounded-4xl p-6 shadow-lg">{children}</div>
+    <div className={`bg-white rounded-xl p-6 shadow-md ${className}`}>
+        {children}
+    </div>
   )
 }
 

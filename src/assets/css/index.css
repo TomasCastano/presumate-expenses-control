@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter.woff2') format('woff2');
+}
+
+* {
+  font-family: 'Inter', sans-serif !important;
+}
+
 /*** SWIPE LIST OVERRIDES **/
 .swipeable-list-item__leading-actions, 
 .swipeable-list-item__trailing-actions {
