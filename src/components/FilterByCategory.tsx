@@ -4,13 +4,6 @@ import Card from "./UI/Card"
 
 const FilterByCategory = () => {
 
-    const { dispatch } = useBudget()
-
-    const handleFilterChange = (id: string, e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        dispatch({type: 'add-filter-category', payload: {id}})
-    }
-
     const getIconSVG = (iconName: string): React.ReactElement => {
         const icons: { [key: string]: React.ReactElement } = {
             ahorro: (
@@ -54,11 +47,29 @@ const FilterByCategory = () => {
         }
         return icons[iconName] || null
     }
+    
+    const { dispatch } = useBudget()
+
+    const handleFilterChange = (id: string, e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        dispatch({type: 'add-filter-category', payload: {id}})
+    }
+
 
     return (
         <Card>
             <form>
                 <div className="flex flex-col md:flex-row md:items-center gap-5">
+                    <button
+                        type="button"
+                        onClick={(e) => handleFilterChange('', e)}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-600 text-white hover:bg-gray-700 transition-colors"
+                    >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                        </svg>
+                        Todas
+                    </button>
                     {categories.map(category => (
                             <button
                                 key={category.id}
