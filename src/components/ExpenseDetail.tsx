@@ -27,9 +27,9 @@ const ExpenseDetail = ({ expense } : ExpenseDetailProps) => {
             
             <div className="flex flex-row gap-2 w-full justify-between items-center">
                 <div className="w-full flex flex-col gap-1">
-                    <p className="text-slate-600 text-sm">{formatDate(expense.date.toString())}</p>
+                    <p className="text-secondary text-sm">{formatDate(expense.date.toString())}</p>
                     <p className="font-medium text-xl">{expense.expenseName}</p>
-                    <p className="text-sm font-medium text-slate-600">{categoryInfo?.name}</p>
+                    <p className="text-sm font-medium text-secondary">{categoryInfo?.name}</p>
                 </div>
                 <span className="text-2xl font-bold text-black">{formatCurrency(expense.amount)}</span>
             </div>
@@ -37,7 +37,7 @@ const ExpenseDetail = ({ expense } : ExpenseDetailProps) => {
             <div className="relative">
                 <button
                     type="button"
-                    className="p-2 bg-secondary/20 hover:bg-secondary/30 cursor-pointer transition-all duration-200 ease-in-out h-fit rounded-lg"
+                    className="p-2 bg-secondary/10 hover:bg-secondary/30 cursor-pointer transition-all duration-200 ease-in-out h-fit rounded-lg"
                     onClick={() => setShowMenu(!showMenu)}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">

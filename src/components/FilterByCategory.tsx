@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { categories } from "../data/categories"
 import { useBudget } from "../hooks/useBudget"
 import { getIconSVG } from "./icons/CategoryIcons"
@@ -7,6 +8,13 @@ import Card from "./UI/Card"
 const FilterByCategory = () => {
 
     const { dispatch, state } = useBudget()
+    
+    const [animate, setAnimate] = useState(false)
+    
+    useEffect(() => {
+        const timer = setTimeout(() => setAnimate(true), 100);
+        return () => clearTimeout(timer);
+    }, [])
 
     const selectedCategory = state.currentCategory
 
@@ -18,7 +26,8 @@ const FilterByCategory = () => {
     const isSelected = (id: string) => selectedCategory === id
 
     return (
-        <Card>
+        <Card className={`transform transition-all duration-700 ease-out
+            ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
             <form>
                 <div className="flex flex-col md:flex-row md:items-center gap-5 flex-wrap">
                     <button
