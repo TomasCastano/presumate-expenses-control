@@ -28,8 +28,9 @@ const FilterByCategory = () => {
     return (
         <Card className={`transform transition-all duration-700 ease-out
             ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+            <p className="text-black text-2xl font-bold mb-5">Filtro por Categoría</p>
             <form>
-                <div className="flex flex-col md:flex-row md:items-center gap-5 flex-wrap">
+                <div className="flex flex-row items-center gap-5 flex-wrap">
                     <button
                         type="button"
                         onClick={(e) => handleFilterChange('', e)}

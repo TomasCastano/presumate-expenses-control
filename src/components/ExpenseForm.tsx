@@ -3,6 +3,7 @@ import type { DraftExpense, Value } from "../types"
 import { categories } from "../data/categories"
 import DatePicker from "react-date-picker"
 import { useBudget } from "../hooks/useBudget"
+import { getIconSVG } from "./icons/CategoryIcons"
 
 import ErrorMessage from "./ErrorMessage"
 
@@ -50,6 +51,13 @@ const ExpenseForm = () => {
         }
     }
 
+    const handleCategoryChange = (categoryId: string) => {
+        setExpense({
+            ...expense,
+            category: categoryId
+        })
+    }
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
@@ -95,7 +103,7 @@ const ExpenseForm = () => {
                 <input
                     type="text"
                     id="expenseName"
-                    className="p-2 bg-slate-100 rounded-lg"
+                    className="p-2 bg-slate-100 rounded-lg text-sm"
                     placeholder="Ej: Spotify, Supermercado..."
                     name="expenseName"
                     value={expense.expenseName}
@@ -104,19 +112,19 @@ const ExpenseForm = () => {
             </div>
 
             <div className="flex flex-col gap-2">
-                <label htmlFor="budget" className="text-md font-medium text-secondary">Presupuesto</label>
+                <label htmlFor="amount" className="text-md font-medium text-secondary">Presupuesto</label>
                 <label
-                    htmlFor="budget"
+                    htmlFor="amount"
                     className="flex flex-row gap-2 bg-slate-100 border border-none p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-200 cursor-pointer"
                 >
-                    <span className="font-medium text-secondary text-lg">
+                    <span className="font-medium text-secondary text-base">
                         $
                     </span>
                     <input 
                         type="number"
                         id="amount"
                         name="amount"
-                        className="w-full border-none focus:outline-none font-medium" 
+                        className="w-full border-none focus:outline-none font-medium text-sm" 
                         placeholder="0.00"
                         min={0}
                         value={expense.amount}
@@ -126,26 +134,26 @@ const ExpenseForm = () => {
             </div>
 
             <div className="flex flex-col gap-2">
-                <label
-                    htmlFor="category"
+                <span
                     className="text-md font-medium text-secondary"
                 >
                     Categoria
-                </label>
-                <select
-                    id="category"
-                    name="category"
-                    className="p-2 bg-slate-100 rounded-lg"
-                    value={expense.category}
-                    onChange={handleChange}
-                >
-                    <option value="">Selecciona una categoria</option>
-                    {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
+                </span>
+                <div className="flex flex-row items-center gap-3 flex-wrap">
+                    {categories.map(category => (
+                        <button
+                            key={category.id}
+                            type="button"
+                            onClick={() => handleCategoryChange(category.id)}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm transition-colors cursor-pointer
+                                ${expense.category === category.id ? 'bg-black' : 'bg-secondary/30 hover:bg-secondary/50'}
+                            `}
+                        >
+                            {getIconSVG(category.icon)}
                             {category.name}
-                        </option>
+                        </button>
                     ))}
-                </select>
+                </div>
             </div>
 
             <div className="flex flex-col gap-2">
@@ -156,7 +164,7 @@ const ExpenseForm = () => {
                     Fecha Gasto
                 </label>
                 <DatePicker
-                    className="p-2 bg-slate-100 rounded-lg"
+                    className="p-2 bg-slate-100 rounded-lg text-sm"
                     value={expense.date}
                     onChange={handleChangeDate}
                 />
