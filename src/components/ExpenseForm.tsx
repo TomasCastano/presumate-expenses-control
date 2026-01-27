@@ -112,7 +112,12 @@ const ExpenseForm = () => {
             </div>
 
             <div className="flex flex-col gap-2">
-                <label htmlFor="amount" className="text-md font-medium text-secondary">Presupuesto</label>
+                <label
+                    htmlFor="amount"
+                    className="text-md font-medium text-secondary"
+                >
+                    Monto del Gasto
+                </label>
                 <label
                     htmlFor="amount"
                     className="flex flex-row gap-2 bg-slate-100 border border-none p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-200 cursor-pointer"
