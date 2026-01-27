@@ -69,7 +69,6 @@ const ExpenseForm = () => {
             dispatch({ type: 'add-expense', payload: { expense } })
         }
 
-
         setExpense({
             expenseName: '',
             amount: 0,
@@ -80,10 +79,8 @@ const ExpenseForm = () => {
 
     return (
         <form className="space-y-5" onSubmit={handleSubmit}>
-            <legend className="text-2xl font-bold text-center border-b-2 py-4 border-blue-500">
-
+            <legend className="text-2xl font-bold text-left pb-2">
                 {state.editingId ? 'Actualizar Gasto' : 'Nuevo Gasto'}
-                
             </legend>
 
             {error && <ErrorMessage>{error}</ErrorMessage>}
@@ -91,15 +88,15 @@ const ExpenseForm = () => {
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="expenseName"
-                    className="text-md font-semibold"
+                    className="text-md font-medium text-secondary"
                 >
-                    Nombre Gasto:
+                    Nombre Gasto
                 </label>
                 <input
                     type="text"
                     id="expenseName"
-                    className="p-2 border-2 border-gray-200 rounded-lg"
-                    placeholder="Añade el nombre del gasto"
+                    className="p-2 bg-slate-100 rounded-lg"
+                    placeholder="Ej: Spotify, Supermercado..."
                     name="expenseName"
                     value={expense.expenseName}
                     onChange={handleChange}
@@ -107,35 +104,38 @@ const ExpenseForm = () => {
             </div>
 
             <div className="flex flex-col gap-2">
+                <label htmlFor="budget" className="text-md font-medium text-secondary">Presupuesto</label>
                 <label
-                    htmlFor="amount"
-                    className="text-md font-semibold"
+                    htmlFor="budget"
+                    className="flex flex-row gap-2 bg-slate-100 border border-none p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-200 cursor-pointer"
                 >
-                    Cantidad:
+                    <span className="font-medium text-secondary text-lg">
+                        $
+                    </span>
+                    <input 
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        className="w-full border-none focus:outline-none font-medium" 
+                        placeholder="0.00"
+                        min={0}
+                        value={expense.amount}
+                        onChange={handleChange}
+                    />
                 </label>
-                <input
-                    type="number"
-                    id="amount"
-                    name="amount"
-                    className="p-2 border-2 border-gray-200 rounded-lg"
-                    placeholder="Añade el monto del gasto"
-                    min={0}
-                    value={expense.amount}
-                    onChange={handleChange}
-                />
             </div>
 
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="category"
-                    className="text-md font-semibold"
+                    className="text-md font-medium text-secondary"
                 >
-                    Categoria:
+                    Categoria
                 </label>
                 <select
                     id="category"
                     name="category"
-                    className="p-2 border-2 border-gray-200 rounded-lg"
+                    className="p-2 bg-slate-100 rounded-lg"
                     value={expense.category}
                     onChange={handleChange}
                 >
@@ -151,19 +151,19 @@ const ExpenseForm = () => {
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="expenseName"
-                    className="text-md font-semibold"
+                    className="text-md font-medium text-secondary"
                 >
-                    Fecha Gasto:
+                    Fecha Gasto
                 </label>
                 <DatePicker
-                    className="p-2 rounded-lg"
+                    className="p-2 bg-slate-100 rounded-lg"
                     value={expense.date}
                     onChange={handleChangeDate}
                 />
             </div>
 
             <input
-                className="bg-blue-500 text-white p-2 rounded-lg mt-5 w-full cursor-pointer font-semibold"
+                className="bg-primary hover:bg-primary-hover cursor-pointer text-white p-2 rounded-lg mt-5 w-full font-semibold transition-all duration-300 ease-in-out"
                 type="submit"
                 value={state.editingId ? 'Guardar Cambios' : 'Registrar Gasto'}
             />
