@@ -13,7 +13,7 @@ export default function ExpenseModal() {
             {!state.modal && (    
                 <div className="fixed right-7 bottom-7 flex items-center justify-center z-100">
                     <button
-                        className='rounded-full aspect-square p-2 bg-gradient-to-r from-sky-600 to-sky-700 cursor-pointer hover:scale-105 transition-all duration-300 ease-in-out'
+                        className='rounded-full aspect-square p-2 bg-primary cursor-pointer hover:scale-105 transition-all duration-300 ease-in-out shadow-md'
                         type="button"
                         onClick={() => dispatch({type: 'show-modal'})}
                     >

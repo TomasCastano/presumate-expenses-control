@@ -1,14 +1,10 @@
 import { ChangeEvent, useEffect, useState } from "react"
-import type { DraftExpense, Value } from "../types"
+import type { DraftExpense } from "../types"
 import { categories } from "../data/categories"
-import DatePicker from "react-date-picker"
 import { useBudget } from "../hooks/useBudget"
 import { getIconSVG } from "./icons/CategoryIcons"
 
 import ErrorMessage from "./ErrorMessage"
-
-import 'react-calendar/dist/Calendar.css'
-import 'react-date-picker/dist/DatePicker.css'
 
 const ExpenseForm = () => {
 
@@ -21,7 +17,7 @@ const ExpenseForm = () => {
 
     const [error, setError] = useState('')
 
-    const [previousAmount, setPreviousAmount] = useState(0) 
+    const [previousAmount, setPreviousAmount] = useState(0)
 
     const { dispatch, state, remainingBudget } = useBudget()
 
@@ -42,13 +38,13 @@ const ExpenseForm = () => {
         })
     }
 
-    const handleChangeDate = (value: Value) => {
-        if (value instanceof Date) {
-            setExpense({
-                ...expense,
-                date: value
-            })
-        }
+    const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const dateString = e.target.value // Esto nos da el texto "YYYY-MM-DD"
+
+        setExpense({
+            ...expense,
+            date: new Date(dateString + 'T00:00:00') // Convertimos el texto a un objeto Date real
+        })
     }
 
     const handleCategoryChange = (categoryId: string) => {
@@ -122,14 +118,14 @@ const ExpenseForm = () => {
                     htmlFor="amount"
                     className="flex flex-row gap-2 bg-slate-100 border border-none p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-200 cursor-pointer"
                 >
-                    <span className="font-medium text-secondary text-base">
+                    <span className="font-medium text-secondary text-sm">
                         $
                     </span>
-                    <input 
+                    <input
                         type="number"
                         id="amount"
                         name="amount"
-                        className="w-full border-none focus:outline-none font-medium text-sm" 
+                        className="w-full border-none focus:outline-none text-sm"
                         placeholder="0.00"
                         min={0}
                         value={expense.amount}
@@ -142,7 +138,7 @@ const ExpenseForm = () => {
                 <span
                     className="text-md font-medium text-secondary"
                 >
-                    Categoria
+                    Categoría
                 </span>
                 <div className="flex flex-row items-center gap-3 flex-wrap">
                     {categories.map(category => (
@@ -151,7 +147,7 @@ const ExpenseForm = () => {
                             type="button"
                             onClick={() => handleCategoryChange(category.id)}
                             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm transition-colors cursor-pointer
-                                ${expense.category === category.id ? 'bg-black' : 'bg-secondary/30 hover:bg-secondary/50'}
+                                ${expense.category === category.id ? 'bg-primary' : 'bg-secondary/30 hover:bg-secondary/50'}
                             `}
                         >
                             {getIconSVG(category.icon)}
@@ -162,17 +158,23 @@ const ExpenseForm = () => {
             </div>
 
             <div className="flex flex-col gap-2">
-                <label
-                    htmlFor="expenseName"
-                    className="text-md font-medium text-secondary"
-                >
-                    Fecha Gasto
-                </label>
-                <DatePicker
-                    className="p-2 bg-slate-100 rounded-lg text-sm"
-                    value={expense.date}
-                    onChange={handleChangeDate}
-                />
+                <div className="flex flex-col gap-2">
+                    <label
+                        htmlFor="date"
+                        className="text-md font-medium text-secondary"
+                    >
+                        Fecha Gasto
+                    </label>
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        className="p-2 bg-slate-100 rounded-lg text-sm border-none outline-none focus:ring-2 focus:ring-slate-200"
+                        /* Convertimos el objeto Date a texto "YYYY-MM-DD" para que el input lo entienda */
+                        value={expense.date instanceof Date ? expense.date.toISOString().split('T')[0] : ''}
+                        onChange={handleChangeDate}
+                    />
+                </div>
             </div>
 
             <input
