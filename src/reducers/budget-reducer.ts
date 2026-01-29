@@ -10,6 +10,7 @@ export type BudgetAction =
     { type: 'get-expense-by-id', payload: {id: Expense['id']} } |
     { type: 'update-expense', payload: {expense: Expense} } |
     { type: 'add-filter-category', payload: {id: Categories['id']} } |
+    { type: 'add-expenses', payload: { expenses: Expense[] } } |
     { type: 'reset-app' }
 
 export type BudgetState = {
@@ -27,7 +28,11 @@ const initialBudget = () : number => {
 
 const localStorageExpenses = () : Expense[] => {
     const localStorageExpenses = localStorage.getItem('expenses')
-    return localStorageExpenses ? JSON.parse(localStorageExpenses) : []
+    const expenses = localStorageExpenses ? JSON.parse(localStorageExpenses) : []
+    return expenses.map((expense: Expense) => ({
+        ...expense,
+        date: new Date(expense.date)
+    }))
 }
 
 export const initialState : BudgetState = {
@@ -99,6 +104,15 @@ export const budgetReducer = (
                 ...state,
                 currentCategory: action.payload.id
             }
+        case 'add-expenses':
+            const newExpenses = action.payload.expenses.map(expense => ({
+                ...expense,
+                id: uuidv4()
+            }));
+            return {
+                ...state,
+                expenses: [...state.expenses, ...newExpenses]
+            };
         case 'reset-app' :
             return {
                 budget : 0,

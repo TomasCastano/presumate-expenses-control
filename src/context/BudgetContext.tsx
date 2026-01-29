@@ -1,4 +1,4 @@
-import { useReducer, createContext, Dispatch, ReactNode, useMemo } from "react"
+import { useReducer, createContext, Dispatch, ReactNode, useMemo, useEffect } from "react"
 import { budgetReducer, initialState, BudgetState, type BudgetAction } from "../reducers/budget-reducer"
 
 type BudgetContextProps = {
@@ -17,6 +17,11 @@ export const BudgetContext = createContext<BudgetContextProps>(null!)
 export const BudgetProvider = ({ children }: BudgetProviderProps) => {
 
     const [state, dispatch] = useReducer(budgetReducer, initialState)
+
+    useEffect(() => {
+        localStorage.setItem('budget', state.budget.toString())
+        localStorage.setItem('expenses', JSON.stringify(state.expenses))
+    }, [state.budget, state.expenses])
 
     const totalExpenses = useMemo(() => {
         return state.expenses.reduce((total, expense) => expense.amount + total, 0)

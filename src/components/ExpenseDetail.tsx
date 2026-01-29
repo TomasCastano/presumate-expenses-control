@@ -27,7 +27,7 @@ const ExpenseDetail = ({ expense } : ExpenseDetailProps) => {
             
             <div className="flex flex-row gap-2 w-full justify-between items-center">
                 <div className="w-full flex flex-col gap-1">
-                    <p className="text-secondary text-sm">{formatDate(expense.date.toString())}</p>
+                    <p className="text-secondary text-sm">{formatDate(expense.date)}</p>
                     <p className="font-medium text-xl">{expense.expenseName}</p>
                     <p className="text-sm font-medium text-secondary">{categoryInfo?.name}</p>
                 </div>
