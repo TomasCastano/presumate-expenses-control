@@ -3,6 +3,7 @@ import type { DraftExpense } from "../types"
 import { categories } from "../data/categories"
 import { useBudget } from "../hooks/useBudget"
 import { getIconSVG } from "./icons/CategoryIcons"
+import { formatYYYYMMDD } from "../helpers" // Import formatYYYYMMDD
 
 import ErrorMessage from "./ErrorMessage"
 
@@ -171,7 +172,7 @@ const ExpenseForm = () => {
                         name="date"
                         className="p-2 bg-slate-100 rounded-lg text-sm border-none outline-none focus:ring-2 focus:ring-slate-200"
                         /* Convertimos el objeto Date a texto "YYYY-MM-DD" para que el input lo entienda */
-                        value={expense.date instanceof Date ? expense.date.toISOString().split('T')[0] : ''}
+                        value={expense.date instanceof Date ? formatYYYYMMDD(expense.date) : ''}
                         onChange={handleChangeDate}
                     />
                 </div>

@@ -7,16 +7,11 @@ import { categories } from '../data/categories'
 import DOMPurify from 'dompurify'
 
 // Define a type for the data imported from Excel to improve type safety
-type ImportedExpense = Omit<Expense, 'id' | 'date'> & { date: string | number }
+type ImportedExpense = Omit<Expense, 'id' | 'date'> & { date: string | number | Date }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
 const FORMULA_CHARACTERS = ['=', '+', '-', '@', '\t', '\r']
 
-/**
- * Sanitizes a value to prevent XSS attacks.
- * @param value The value to sanitize.
- * @returns The sanitized value.
- */
 const sanitizeValue = <T>(value: T): T => {
     if (typeof value === 'string') {
         return DOMPurify.sanitize(value) as T
@@ -24,11 +19,6 @@ const sanitizeValue = <T>(value: T): T => {
     return value
 }
 
-/**
- * Escapes a cell value if it looks like a formula to prevent formula injection.
- * @param value The cell value.
- * @returns The escaped value.
- */
 const escapeFormula = <T>(value: T): T => {
     if (typeof value === 'string' && FORMULA_CHARACTERS.some(char => value.startsWith(char))) {
         return `'${value}` as T
@@ -80,7 +70,7 @@ export const useExcel = () => {
                 const data = event.target?.result
                 if (data) {
                     try {
-                        const workbook = XLSX.read(data, { type: 'binary' })
+                        const workbook = XLSX.read(data, { type: 'binary', cellDates: true })
                         const sheetName = workbook.SheetNames[0]
                         const worksheet = workbook.Sheets[sheetName]
                         const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
@@ -121,13 +111,33 @@ export const useExcel = () => {
                                 return null // Invalid item, filter it out later
                             }
                             
-                            let date
-                            try {
-                                const parsedDate = new Date(item.date)
-                                date = isValid(parsedDate) ? parsedDate : parseISO(item.date.toString())
-                                if (!isValid(date)) date = null
-                            } catch {
-                                date = null
+                            let date: Date | null = null
+                            if (item.date instanceof Date && isValid(item.date)) {
+                                date = item.date
+                            } else if (typeof item.date === 'string') {
+                                const parsed = parseISO(item.date)
+                                if (isValid(parsed)) {
+                                    date = parsed
+                                } else {
+                                    // Try parsing common European format DD/MM/YYYY
+                                    const parts = item.date.split(/[\/\-]/);
+                                    if (parts.length === 3) {
+                                        // Assumes DD/MM/YYYY or D/M/YYYY
+                                        const d = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+                                        if (isValid(d)) {
+                                            date = d;
+                                        }
+                                    }
+                                }
+                            } else if (typeof item.date === 'number') {
+                                // Excel date serial number to JS Date. Excel's epoch is 1900-01-01 (or 1904-01-01 for Mac)
+                                // JS Date's epoch is 1970-01-01
+                                // Adjusting for 1900-01-01 epoch: days since 1900-01-01
+                                // 25569 is the number of days between 1900-01-01 and 1970-01-01
+                                // Multiply by 86400000 (milliseconds in a day)
+                                const excelEpoch = new Date(Date.UTC(1899, 11, 30)); // Dec 30, 1899 for 1900-01-01 epoch
+                                date = new Date(excelEpoch.getTime() + item.date * 24 * 60 * 60 * 1000);
+                                if (!isValid(date)) date = null;
                             }
 
                             return { ...item, expenseName, category, date }
