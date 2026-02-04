@@ -1,11 +1,11 @@
-import { useBudget } from "../hooks/useBudget";
-import { useExcel } from "../hooks/useExcel";
-import Button from "./UI/Button";
-import ErrorMessage from "./ErrorMessage";
+import { useBudget } from "../hooks/useBudget"
+import { useExcel } from "../hooks/useExcel"
+import Button from "./UI/Button"
+import ErrorMessage from "./ErrorMessage"
 
 const Header = () => {
-    const { dispatch } = useBudget();
-    const { fileInputRef, error, handleExport, handleImportClick, handleFile } = useExcel();
+    const { dispatch } = useBudget()
+    const { fileInputRef, error, handleExport, handleImportClick, handleFile } = useExcel()
 
     return (
        <header className="flex items-center justify-between">
@@ -38,4 +38,4 @@ const Header = () => {
     )
 }
 
-export default Header;
+export default Header

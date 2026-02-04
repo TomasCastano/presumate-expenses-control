@@ -1,32 +1,32 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Categories, DraftExpense, Expense } from "../types"
 
-export type BudgetAction = 
-    { type: "add-budget", payload: { budget : number } } |
-    { type: 'show-modal'} |
-    { type: 'hide-modal'} |
+export type BudgetAction =
+    { type: "add-budget", payload: { budget: number } } |
+    { type: 'show-modal' } |
+    { type: 'hide-modal' } |
     { type: 'add-expense', payload: { expense: DraftExpense } } |
-    { type: 'remove-expense', payload: {id: Expense['id']} } |
-    { type: 'get-expense-by-id', payload: {id: Expense['id']} } |
-    { type: 'update-expense', payload: {expense: Expense} } |
-    { type: 'add-filter-category', payload: {id: Categories['id']} } |
+    { type: 'remove-expense', payload: { id: Expense['id'] } } |
+    { type: 'get-expense-by-id', payload: { id: Expense['id'] } } |
+    { type: 'update-expense', payload: { expense: Expense } } |
+    { type: 'add-filter-category', payload: { id: Categories['id'] } } |
     { type: 'add-expenses', payload: { expenses: Expense[] } } |
     { type: 'reset-app' }
 
 export type BudgetState = {
-    budget : number,
-    modal : boolean,
+    budget: number,
+    modal: boolean,
     expenses: Expense[],
     editingId: Expense['id'],
     currentCategory: Categories['id']
 }
 
-const initialBudget = () : number => {
+const initialBudget = (): number => {
     const localStorageBudget = localStorage.getItem('budget')
     return localStorageBudget ? +localStorageBudget : 0
 }
 
-const localStorageExpenses = () : Expense[] => {
+const localStorageExpenses = (): Expense[] => {
     const localStorageExpenses = localStorage.getItem('expenses')
     const expenses = localStorageExpenses ? JSON.parse(localStorageExpenses) : []
     return expenses.map((expense: Expense) => ({
@@ -35,15 +35,15 @@ const localStorageExpenses = () : Expense[] => {
     }))
 }
 
-export const initialState : BudgetState = {
-    budget : initialBudget(),
-    modal : false,
+export const initialState: BudgetState = {
+    budget: initialBudget(),
+    modal: false,
     expenses: localStorageExpenses(),
     editingId: '',
     currentCategory: ''
 }
 
-const createExpense = (DraftExpense: DraftExpense) : Expense => {
+const createExpense = (DraftExpense: DraftExpense): Expense => {
     return {
         ...DraftExpense,
         id: uuidv4()
@@ -52,45 +52,45 @@ const createExpense = (DraftExpense: DraftExpense) : Expense => {
 
 export const budgetReducer = (
     state: BudgetState = initialState,
-    action : BudgetAction
+    action: BudgetAction
 ) => {
 
     switch (action.type) {
         case 'add-budget':
             return {
                 ...state,
-                budget : action.payload.budget
+                budget: action.payload.budget
             }
-        case 'show-modal' :
+        case 'show-modal':
             return {
                 ...state,
                 modal: true
             }
-        case 'hide-modal' :
+        case 'hide-modal':
             return {
                 ...state,
                 modal: false,
                 editingId: ''
             }
-        case 'add-expense' :
+        case 'add-expense':
             const expense = createExpense(action.payload.expense)
             return {
                 ...state,
                 expenses: [...state.expenses, expense],
                 modal: false
             }
-        case 'remove-expense' :
+        case 'remove-expense':
             return {
                 ...state,
-                expenses: state.expenses.filter( expense => expense.id !== action.payload.id )
+                expenses: state.expenses.filter(expense => expense.id !== action.payload.id)
             }
-        case 'get-expense-by-id' :
+        case 'get-expense-by-id':
             return {
                 ...state,
                 modal: true,
                 editingId: action.payload.id
             }
-        case 'update-expense' :
+        case 'update-expense':
             return {
                 ...state,
                 modal: false,
@@ -99,7 +99,7 @@ export const budgetReducer = (
                 )),
                 editingId: ''
             }
-        case 'add-filter-category' :
+        case 'add-filter-category':
             return {
                 ...state,
                 currentCategory: action.payload.id
@@ -107,18 +107,19 @@ export const budgetReducer = (
         case 'add-expenses':
             const newExpenses = action.payload.expenses.map(expense => ({
                 ...expense,
-                id: uuidv4()
-            }));
+                id: uuidv4(),
+                date: expense.date instanceof Date ? expense.date : new Date(expense.date)
+            }))
             return {
                 ...state,
                 expenses: [...state.expenses, ...newExpenses]
-            };
-        case 'reset-app' :
+            }
+        case 'reset-app':
             return {
-                budget : 0,
-                modal : false,
-                expenses : [],
-                editingId : '',
+                budget: 0,
+                modal: false,
+                expenses: [],
+                editingId: '',
                 currentCategory: ''
             }
 

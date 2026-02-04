@@ -80,12 +80,12 @@ export const useExcel = () => {
                         }
 
                         const headers = (jsonData[0] as string[]).map(h => h.trim())
-                        const expectedHeaders = ['expenseName', 'amount', 'category', 'date']
-                        if (!expectedHeaders.every(h => headers.includes(h))) {
+                        // Cambiado: id es opcional, no requerido
+                        const requiredHeaders = ['expenseName', 'amount', 'category', 'date']
+                        if (!requiredHeaders.every(h => headers.includes(h))) {
                             throw new Error("El archivo no tiene los encabezados esperados (expenseName, amount, category, date).")
                         }
-                        
-                        // Convert array of arrays to array of objects
+
                         const dataAsObjects = XLSX.utils.sheet_to_json(worksheet) as ImportedExpense[]
 
                         const validData = dataAsObjects.map(item => {
@@ -96,21 +96,37 @@ export const useExcel = () => {
                                     throw new Error(`Se detectó una fórmula potencialmente maliciosa en la fila: ${JSON.stringify(item)}`)
                                 }
                             }
-                            
+
                             // Sanitize and validate data
                             const expenseName = sanitizeValue(item.expenseName)
-                            const category = sanitizeValue(item.category)
-                            const amount = item.amount
                             
+                            let category: string = ''
+                            if (typeof item.category === 'string') {
+                                category = sanitizeValue(item.category)
+                            } else if (typeof item.category === 'number') {
+                                category = String(item.category)
+                            }
+
+                            let amount: number | null = null
+                            if (typeof item.amount === 'number') {
+                                amount = item.amount
+                            } else if (typeof item.amount === 'string') {
+                                const parsed = parseFloat(item.amount)
+                                if (!isNaN(parsed) && parsed > 0) {
+                                    amount = parsed
+                                }
+                            }
+
                             if (
-                                !expenseName || typeof expenseName !== 'string' ||
-                                !amount || typeof amount !== 'number' ||
+                                !expenseName || typeof expenseName !== 'string' || expenseName.trim() === '' ||
+                                !amount || amount <= 0 ||
                                 !category || !categories.some(cat => cat.id === category) ||
                                 !item.date
                             ) {
-                                return null // Invalid item, filter it out later
+                                console.warn('Registro inválido descartado:', item)
+                                return null
                             }
-                            
+
                             let date: Date | null = null
                             if (item.date instanceof Date && isValid(item.date)) {
                                 date = item.date
@@ -119,10 +135,8 @@ export const useExcel = () => {
                                 if (isValid(parsed)) {
                                     date = parsed
                                 } else {
-                                    // Try parsing common European format DD/MM/YYYY
                                     const parts = item.date.split(/[\/\-]/);
                                     if (parts.length === 3) {
-                                        // Assumes DD/MM/YYYY or D/M/YYYY
                                         const d = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
                                         if (isValid(d)) {
                                             date = d;
@@ -130,21 +144,31 @@ export const useExcel = () => {
                                     }
                                 }
                             } else if (typeof item.date === 'number') {
-                                // Excel date serial number to JS Date. Excel's epoch is 1900-01-01 (or 1904-01-01 for Mac)
-                                // JS Date's epoch is 1970-01-01
-                                // Adjusting for 1900-01-01 epoch: days since 1900-01-01
-                                // 25569 is the number of days between 1900-01-01 and 1970-01-01
-                                // Multiply by 86400000 (milliseconds in a day)
-                                const excelEpoch = new Date(Date.UTC(1899, 11, 30)); // Dec 30, 1899 for 1900-01-01 epoch
+                                const excelEpoch = new Date(Date.UTC(1899, 11, 30));
                                 date = new Date(excelEpoch.getTime() + item.date * 24 * 60 * 60 * 1000);
                                 if (!isValid(date)) date = null;
                             }
 
-                            return { ...item, expenseName, category, date }
-                        }).filter((item): item is Exclude<typeof item, null> => item !== null && item.date !== null)
+                            if (!date) {
+                                console.warn('Fecha inválida descartada:', item)
+                                return null
+                            }
+
+                            return {
+                                expenseName,
+                                category,
+                                amount,
+                                date
+                            }
+                        }).filter((item): item is Exclude<typeof item, null> => item !== null)
 
                         if (validData.length > 0) {
-                            const expensesToDispatch: Expense[] = validData.map(item => ({ ...item, id: '', date: item.date! }))
+                            // El reducer debería generar nuevos IDs automáticamente
+                            const expensesToDispatch: Expense[] = validData.map(item => ({
+                                ...item,
+                                id: '', // El reducer generará un nuevo ID
+                                date: item.date!
+                            }))
                             dispatch({ type: 'add-expenses', payload: { expenses: expensesToDispatch } })
                         } else {
                             setError('El archivo no tiene el formato correcto, contiene datos inválidos o las fechas no son válidas.')
