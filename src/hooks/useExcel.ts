@@ -11,6 +11,7 @@ type ImportedExpense = Omit<Expense, 'id' | 'date'> & { date: string | number | 
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
 const FORMULA_CHARACTERS = ['=', '+', '-', '@', '\t', '\r']
+const MAX_RECORDS = 1000
 
 const sanitizeValue = <T>(value: T): T => {
     if (typeof value === 'string') {
@@ -87,6 +88,10 @@ export const useExcel = () => {
                         }
 
                         const dataAsObjects = XLSX.utils.sheet_to_json(worksheet) as ImportedExpense[]
+
+                        if (dataAsObjects.length > MAX_RECORDS) {
+                            throw new Error(`El archivo tiene demasiados registros. Máximo permitido: ${MAX_RECORDS}`)
+                        }
 
                         const validData = dataAsObjects.map(item => {
                             // Security: Check for malicious formulas in string fields
@@ -174,7 +179,15 @@ export const useExcel = () => {
                             setError('El archivo no tiene el formato correcto, contiene datos inválidos o las fechas no son válidas.')
                         }
                     } catch (e: any) {
-                        setError(e.message || 'Ocurrió un error al procesar el archivo.')
+                        if (e.message.includes('fórmula')) {
+                            setError('⚠️ Archivo bloqueado por seguridad: contiene fórmulas maliciosas')
+                        } else if (e.message.includes('encabezados')) {
+                            setError('📋 El archivo debe tener las columnas: expenseName, amount, category, date')
+                        } else if (e.message.includes('vacío')) {
+                            setError('📄 El archivo está vacío')
+                        } else {
+                            setError(`❌ Error: ${e.message || 'No se pudo procesar el archivo'}`)
+                        }
                     } finally {
                         setIsLoading(false)
                     }
@@ -187,6 +200,10 @@ export const useExcel = () => {
             reader.readAsBinaryString(file)
         } else {
             setIsLoading(false)
+        }
+
+        if (e.target) {
+            e.target.value = ''
         }
     }, [dispatch])
 
