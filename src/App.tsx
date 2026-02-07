@@ -6,7 +6,6 @@ import BudgetForm from "./components/BudgetForm"
 import BudgetTracker from "./components/BudgetTracker"
 import ExpenseModal from "./components/ExpenseModal"
 import ExpenseList from "./components/ExpenseList"
-import FilterByCategory from "./components/FilterByCategory"
 
 import "./assets/css/App.css"
 
@@ -31,7 +30,6 @@ function App() {
 					<Header />
 					<div className="space-y-10">
 						<BudgetTracker />
-						<FilterByCategory />
 						<ExpenseList />
 						<ExpenseModal />
 					</div>

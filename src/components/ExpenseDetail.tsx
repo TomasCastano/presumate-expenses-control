@@ -1,10 +1,8 @@
 import { useMemo, useState } from "react"
 import { Expense } from "../types"
-import { formatCurrency, formatDDMMYYYY } from "../helpers"
+import { formatCurrency, formatDayAndMonth } from "../helpers"
 import { categories } from "../data/categories"
 import { useBudget } from "../hooks/useBudget"
-
-import Card from "./UI/Card"
 
 type ExpenseDetailProps = {
     expense: Expense
@@ -20,18 +18,21 @@ const ExpenseDetail = ({ expense } : ExpenseDetailProps) => {
     ), [expense])
 
     return (
-        <Card className="w-full flex flex-row gap-5 items-center">
+        <div className="w-full flex flex-row gap-5 items-center px-6">
             <div className="flex items-center justify-center">
-                <img className="w-16 h-16" src={`/icono_${categoryInfo?.icon}.svg`} alt="Gráfica de gastos" />  
+                <img className="w-14 h-14" src={`/icono_${categoryInfo?.icon}.svg`} alt="Gráfica de gastos" />  
             </div>
             
             <div className="flex flex-row gap-2 w-full justify-between items-center">
                 <div className="w-full flex flex-col gap-1">
-                    <p className="text-secondary text-sm">{formatDDMMYYYY(expense.date)}</p>
-                    <p className="font-medium text-xl">{expense.expenseName}</p>
-                    <p className="text-sm font-medium text-secondary">{categoryInfo?.name}</p>
+                    <p className="font-medium text-lg">{expense.expenseName}</p>
+                    <div className="flex flex-row items-center gap-2">
+                        <p className="text-xs font-medium text-secondary">{categoryInfo?.name}</p>
+                        <span className="w-1 h-1 bg-secondary rounded-full"></span>
+                        <p className="text-secondary text-xs">{formatDayAndMonth(expense.date)}</p>
+                    </div>
                 </div>
-                <span className="text-2xl font-bold text-black">{formatCurrency(expense.amount)}</span>
+                <span className="text-xl font-semibold text-black">{formatCurrency(expense.amount)}</span>
             </div>
 
             <div className="relative">
@@ -68,7 +69,7 @@ const ExpenseDetail = ({ expense } : ExpenseDetailProps) => {
                     </div>
                 )}
             </div>
-        </Card>
+        </div>
     )
 }
 
