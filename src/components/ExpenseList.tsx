@@ -25,7 +25,7 @@ const ExpenseList = () => {
         <Card className={`transform transition-all duration-700 ease-out space-y-8 px-0
         ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
             <header className="flex flex-col gap-3 px-6">
-                <p className="text-black text-xl font-bold">
+                <p className="text-black text-xl font-semibold">
                     Listado de gastos
                 </p>
                 <FilterByCategory />
@@ -37,7 +37,10 @@ const ExpenseList = () => {
                         expense={expense}
                     />
                 )) : (
-                    <p className="text-black text-2xl font-bold">No hay gastos</p>
+                    <div className="flex flex-col items-center justify-center my-2">
+                        <p className="text-secondary text-base font-semibold">No hay gastos</p>
+                        <p className="text-secondary text-sm">{state.currentCategory ? `Intenta con otro filtro` : `Toca + para agregar un gasto`}</p>
+                    </div>
                 )}
             </div>
         </Card>
