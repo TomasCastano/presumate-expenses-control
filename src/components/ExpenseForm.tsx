@@ -2,8 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react"
 import type { DraftExpense } from "../types"
 import { categories } from "../data/categories"
 import { useBudget } from "../hooks/useBudget"
-import { getIconSVG } from "./icons/CategoryIcons"
-import { formatYYYYMMDD } from "../helpers" // Import formatYYYYMMDD
+import { formatYYYYMMDD } from "../helpers"
 
 import ErrorMessage from "./ErrorMessage"
 
@@ -40,11 +39,11 @@ const ExpenseForm = () => {
     }
 
     const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const dateString = e.target.value // Esto nos da el texto "YYYY-MM-DD"
+        const dateString = e.target.value 
 
         setExpense({
             ...expense,
-            date: new Date(dateString + 'T00:00:00') // Convertimos el texto a un objeto Date real
+            date: new Date(dateString + 'T00:00:00')
         })
     }
 
@@ -84,16 +83,19 @@ const ExpenseForm = () => {
 
     return (
         <form className="space-y-5" onSubmit={handleSubmit}>
-            <legend className="text-2xl font-bold text-left pb-2">
-                {state.editingId ? 'Actualizar Gasto' : 'Nuevo Gasto'}
-            </legend>
+            <header className="space-y-1 pb-4 border-b border-gray-200">
+                <legend className="text-xl font-semibold text-left">
+                    {state.editingId ? 'Actualizar Gasto' : 'Nuevo Gasto'}
+                </legend>
+                <p className="text-sm text-secondary">Completa todos los campos para registrar un gasto</p>
+            </header>
 
             {error && <ErrorMessage>{error}</ErrorMessage>}
 
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="expenseName"
-                    className="text-md font-medium text-secondary"
+                    className="text-sm font-medium text-secondary"
                 >
                     Nombre Gasto
                 </label>
@@ -111,7 +113,7 @@ const ExpenseForm = () => {
             <div className="flex flex-col gap-2">
                 <label
                     htmlFor="amount"
-                    className="text-md font-medium text-secondary"
+                    className="text-sm font-medium text-secondary"
                 >
                     Monto del Gasto
                 </label>
@@ -137,7 +139,7 @@ const ExpenseForm = () => {
 
             <div className="flex flex-col gap-2">
                 <span
-                    className="text-md font-medium text-secondary"
+                    className="text-sm font-medium text-secondary"
                 >
                     Categoría
                 </span>
@@ -151,7 +153,7 @@ const ExpenseForm = () => {
                                 ${expense.category === category.id ? 'bg-primary' : 'bg-secondary/30 hover:bg-secondary/50'}
                             `}
                         >
-                            {getIconSVG(category.icon)}
+                            <img className="w-4 h-4 opacity-50" src={`/icono_${category.icon}.svg`} alt={category.name} />
                             {category.name}
                         </button>
                     ))}
@@ -162,7 +164,7 @@ const ExpenseForm = () => {
                 <div className="flex flex-col gap-2">
                     <label
                         htmlFor="date"
-                        className="text-md font-medium text-secondary"
+                        className="text-sm font-medium text-secondary"
                     >
                         Fecha Gasto
                     </label>
@@ -171,7 +173,6 @@ const ExpenseForm = () => {
                         id="date"
                         name="date"
                         className="p-2 bg-slate-100 rounded-lg text-sm border-none outline-none focus:ring-2 focus:ring-slate-200"
-                        /* Convertimos el objeto Date a texto "YYYY-MM-DD" para que el input lo entienda */
                         value={expense.date instanceof Date ? formatYYYYMMDD(expense.date) : ''}
                         onChange={handleChangeDate}
                     />

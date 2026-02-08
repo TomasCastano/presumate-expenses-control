@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { categories } from "../data/categories"
 import { useBudget } from "../hooks/useBudget"
-import { getIconSVG } from "./icons/CategoryIcons"
 import FilterButton from "./UI/FilterButton"
 
 const FilterByCategory = () => {
@@ -44,7 +43,7 @@ const FilterByCategory = () => {
                             onClick={(e) => handleFilterChange(category.id, e)}
                             isSelected={isSelected(category.id)}
                         >
-                            {getIconSVG(category.icon)}
+                            <img className="w-3 h-3 opacity-50" src={`/icono_${category.icon}.svg`} alt={category.name} />
                             {category.name}
                         </FilterButton>
                     ))}
