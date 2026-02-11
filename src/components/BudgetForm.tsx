@@ -2,27 +2,31 @@ import { useEffect, useMemo, useState } from "react"
 import { useBudget } from "../hooks/useBudget"
 
 const BudgetForm = () => {
-
-    const [budget, setBudget] = useState<number>(NaN)
+    const [budget, setBudget] = useState<number>(0)
     const { dispatch } = useBudget()
-    
     const [animate, setAnimate] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setBudget(e.target.valueAsNumber)
+        const rawValue = e.target.value.replace(/\D/g, "")
+        setBudget(Number(rawValue))
     }
 
     const isValid = useMemo(() => isNaN(budget) || budget <= 0, [budget])
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch({type: 'add-budget', payload: {budget}})
+        dispatch({ type: 'add-budget', payload: { budget } })
     }
-    
+
     useEffect(() => {
         const timer = setTimeout(() => setAnimate(true), 100);
         return () => clearTimeout(timer);
     }, [])
+
+    const formatDisplay = (value: number) => {
+        if (value === 0) return ""
+        return value.toLocaleString('en-US')
+    }
 
     return (
         <div className="w-full h-[100dvh] flex items-center justify-center">
@@ -50,11 +54,11 @@ const BudgetForm = () => {
                         </span>
                         <input 
                             id="budget"   
-                            type="number"
+                            type="text"
                             className="w-full border-none focus:outline-none font-medium text-lg" 
                             placeholder="0.00"
                             name="budget" 
-                            value={budget}
+                            value={formatDisplay(budget)}
                             onChange={handleChange}
                         />
                     </label>

@@ -31,15 +31,24 @@ const ExpenseForm = () => {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target
-        const isAmountField = ['amount'].includes(name)
-        setExpense({
-            ...expense,
-            [name]: isAmountField ? Number(value) : value
-        })
+        const isAmountField = name === 'amount'
+
+        if (isAmountField) {
+            const rawValue = value.replace(/\D/g, "")
+            setExpense({
+                ...expense,
+                [name]: Number(rawValue)
+            })
+        } else {
+            setExpense({
+                ...expense,
+                [name]: value
+            })
+        }
     }
 
     const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const dateString = e.target.value 
+        const dateString = e.target.value
 
         setExpense({
             ...expense,
@@ -125,13 +134,12 @@ const ExpenseForm = () => {
                         $
                     </span>
                     <input
-                        type="number"
+                        type="text"
                         id="amount"
                         name="amount"
                         className="w-full border-none focus:outline-none text-sm"
                         placeholder="0.00"
-                        min={0}
-                        value={expense.amount}
+                        value={expense.amount === 0 ? '' : expense.amount.toLocaleString('en-US')}
                         onChange={handleChange}
                     />
                 </label>
