@@ -29,7 +29,7 @@ const BudgetForm = () => {
     }
 
     return (
-        <div className="w-full h-[100dvh] flex items-center justify-center">
+        <div className="w-full h-[100dvh] flex items-center justify-center p-5">
             <div className={`max-w-sm w-full space-y-7 transform transition-all duration-700 ease-out rounded-xl 
                 ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
             >
@@ -40,7 +40,7 @@ const BudgetForm = () => {
                         </svg>
                     </div>
                     <div className="flex flex-col space-y-2">
-                        <h2 className="text-3xl font-bold text-center">Define tu presupuesto</h2>
+                        <h2 className="text-3xl font-semibold text-center">Define tu presupuesto</h2>
                         <p className="text-secondary text-base text-center">Establece tu presupuesto mensual para comenzar a controlar tus gastos</p>
                     </div>
                 </header>
@@ -49,7 +49,7 @@ const BudgetForm = () => {
                         htmlFor="budget"
                         className="flex flex-row gap-2 bg-slate-100 border border-none p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-200 cursor-pointer"
                     >
-                        <span className="font-bold text-neutral-600 text-xl">
+                        <span className="font-medium text-neutral-600 text-xl">
                             $
                         </span>
                         <input 

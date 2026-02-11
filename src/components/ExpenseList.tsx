@@ -24,7 +24,7 @@ const ExpenseList = () => {
     return (
         <Card className={`transform transition-all duration-700 ease-out space-y-8 px-0
         ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
-            <header className="flex flex-col gap-3 px-6">
+            <header className="flex flex-col gap-3 px-6 border-b border-slate-200 pb-5">
                 <p className="text-black text-xl font-semibold">
                     Listado de gastos
                 </p>

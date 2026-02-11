@@ -26,7 +26,7 @@ function App() {
 			{!isValidBudget && <BudgetForm />}
 
 			{isValidBudget && (
-				<div className="max-w-4xl mx-auto py-10 space-y-5">
+				<div className="max-w-4xl mx-auto py-5 md:py-10 px-5 space-y-5">
 					<Header />
 					<div className="space-y-10">
 						<BudgetTracker />

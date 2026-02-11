@@ -49,7 +49,7 @@ export default function ExpenseModal() {
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-3xl bg-white p-7 text-left align-middle shadow-xl transition-all">
+                                <Dialog.Panel className="relative w-full max-w-xl transform overflow-hidden rounded-3xl bg-white p-7 text-left align-middle shadow-xl transition-all">
 
                                     <ExpenseForm />
 

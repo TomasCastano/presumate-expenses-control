@@ -23,7 +23,7 @@ const ExpenseDetail = ({ expense } : ExpenseDetailProps) => {
                 <img className="w-14 h-14" src={`/icono_${categoryInfo?.icon}.svg`} alt="Gráfica de gastos" />  
             </div>
             
-            <div className="flex flex-row gap-2 w-full justify-between items-center">
+            <div className="flex flex-col sm:flex-row gap-2 w-full justify-between items-start sm:items-center">
                 <div className="w-full flex flex-col gap-1">
                     <p className="font-medium text-lg">{expense.expenseName}</p>
                     <div className="flex flex-row items-center gap-2">
