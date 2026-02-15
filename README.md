@@ -1,69 +1,91 @@
-# React + TypeScript + Vite
+# 💰 PresuMate - Control de Gastos Inteligente
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+PresuMate es una aplicación web moderna de gestión financiera personal. Ha sido diseñada para que puedas definir un presupuesto, registrar tus consumos diarios y visualizar el estado de tu dinero de forma clara y atractiva.
 
-Currently, two official plugins are available:
+## ¿Qué hace especial a PresuMate?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+PresuMate no es solo una lista de gastos; es una herramienta completa para entender tus hábitos financieros:
 
-## Expanding the ESLint configuration
+- **Gestión de Presupuesto:** Define cuánto quieres gastar y la app te avisará cuánto te queda disponible en tiempo real.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Registro Detallado:** Añade gastos indicando el nombre, el monto y una categoría (Comida, Salud, Ocio, etc.).
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Visualización con Gráficos:** Incluye una barra de progreso circular que te muestra visualmente qué porcentaje de tu presupuesto ya has consumido.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **Filtros Inteligentes:** ¿Quieres saber cuánto gastas solo en suscripciones? Puedes filtrar tus gastos por categoría fácilmente.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Supervivencia de Datos:** Tus datos se guardan automáticamente en tu navegador (localStorage), así que no perderás nada al cerrar la pestaña.
+
+- **Importación y Exportación con Excel:** 
+  - **Exportar:** Descarga todos tus movimientos a un archivo Excel para revisarlos en tu computadora.
+  - **Importar:** Si ya tienes una lista en Excel, súbela y PresuMate la procesará por ti.
+
+## 🖥️ Tecnología de Vanguardia
+
+Para que la aplicación sea rápida, segura y fácil de usar, hemos utilizado las herramientas más potentes del desarrollo web actual:
+
+- **React 19 & TypeScript:** La base de la app, garantizando una interfaz ultra rápida y libre de errores comunes.
+
+- **Tailwind CSS:** Para un diseño "responsive" que se ve increíble tanto en tu celular como en tu monitor de escritorio.
+
+- **Análisis Visual:** Usamos react-circular-progressbar para los indicadores y Heroicons para una iconografía elegante.
+
+- **Manejo de Datos:**
+  - **xlsx:** La tecnología que permite leer y crear archivos de Excel.
+  - **date-fns:** Para que el calendario y las fechas sean precisos.
+  - **uuid:** Genera identificadores únicos para que cada gasto sea rastreable sin confusiones.
+
+- **Seguridad:** Implementamos dompurify para proteger la aplicación de cualquier dato malicioso que se intente introducir.
+
+## 🏗️ Estructura del Proyecto
+
+La app está organizada siguiendo los mejores estándares de la industria:
+
+- **Componentes Modulares:** Cada parte de la pantalla (el formulario, el gráfico, la lista) es independiente, lo que hace que el código sea fácil de mejorar.
+
+- **Context API & useReducer:** Usamos un sistema centralizado para manejar la información, similar a cómo funcionan las grandes aplicaciones profesionales.
+
+- **Custom Hooks:** Creamos nuestras propias herramientas personalizadas (useBudget, useExcel) para que el código sea más limpio y fácil de leer.
+
+## 🚀 Instalación y Uso
+
+Si quieres ejecutar este proyecto en tu propia computadora, sigue estos pasos:
+
+### Clona el proyecto:
+
+```bash
+git clone https://github.com/TomasCastano/presumate-expenses-control
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Instala las dependencias:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+### Inicia la aplicación:
+
+```bash
+npm run dev
+```
+
+## 📋 Categorías Disponibles
+
+La app viene configurada con las categorías más comunes para tu día a día:
+
+- 💰 Ahorro
+- 🍕 Comida
+- 🏠 Casa
+- 📦 Gastos varios
+- 🎮 Ocio
+- 🏥 Salud
+- 📺 Suscripciones
+- 📄 Licencia
+
+## 📄 Licencia
+
+Este proyecto es de código abierto bajo la licencia MIT. ¡Siéntete libre de usarlo y mejorarlo!
+
+---
+
+Hecho con ❤️ por [Tomás Castaño](https://www.linkedin.com/in/tomascastanochica) para mejorar tu salud financiera.
