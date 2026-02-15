@@ -13,7 +13,7 @@ const Header = () => {
     return (
         <header className="relative flex items-center justify-between">
             <div className="flex flex-col items-start justify-center">
-                <span className="font-semibold text-secondary text-sm md:text-base">Bienvenido</span>
+                <span className="font-semibold text-secondary text-sm md:text-base">PresuMate</span>
                 <h1 className="font-bold text-xl md:text-2xl text-black">Control de Gastos</h1>
             </div>
 
