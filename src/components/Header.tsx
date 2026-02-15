@@ -29,7 +29,7 @@ const Header = () => {
                 </button>
 
                 <div className={`
-                    absolute md:static top-16 right-0 bg-gray-200 md:bg-transparent shadow-lg md:shadow-none p-5 md:p-0 rounded-xl z-40
+                    absolute md:static top-16 right-0 bg-gray-200 md:bg-transparent shadow-lg md:shadow-none p-5 md:p-0 rounded-xl
                     flex flex-col md:flex-row gap-3 transition-all duration-300 ease-in-out
                     ${isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none md:opacity-100 md:scale-100 md:pointer-events-auto'}
                     md:flex

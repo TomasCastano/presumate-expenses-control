@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import { useBudget } from "../hooks/useBudget"
+import Footer from "./Footer"
 
 const BudgetForm = () => {
     const [budget, setBudget] = useState<number>(0)
@@ -29,7 +30,7 @@ const BudgetForm = () => {
     }
 
     return (
-        <div className="w-full h-[100dvh] flex items-center justify-center p-5">
+        <div className="w-full h-[100dvh] flex flex-col items-center justify-center p-5">
             <div className={`max-w-sm w-full space-y-7 transform transition-all duration-700 ease-out rounded-xl 
                 ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
             >
@@ -40,7 +41,7 @@ const BudgetForm = () => {
                         </svg>
                     </div>
                     <div className="flex flex-col space-y-2">
-                        <h2 className="text-3xl font-semibold text-center">Define tu presupuesto</h2>
+                        <h2 className="text-xl font-semibold text-center">Define tu presupuesto</h2>
                         <p className="text-secondary text-base text-center">Establece tu presupuesto mensual para comenzar a controlar tus gastos</p>
                     </div>
                 </header>
@@ -71,6 +72,7 @@ const BudgetForm = () => {
                     />
                 </form>
             </div>
+            <Footer className="absolute bottom-10" />
         </div>
     )
 }
