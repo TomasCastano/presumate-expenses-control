@@ -3,12 +3,12 @@ import { useBudget } from '../hooks/useBudget'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 
 import AmountDisplay from './AmountDisplay'
+import BudgetEditor from './BudgetEditor'
 import Card from './UI/Card'
 
 import 'react-circular-progressbar/dist/styles.css'
 
 const BudgetTracker = () => {
-
     const { state, totalExpenses, remainingBudget } = useBudget()
     const [animate, setAnimate] = useState(false)
 
@@ -47,10 +47,7 @@ const BudgetTracker = () => {
 
                 <div className="flex flex-col gap-4 justify-between h-full">
                     <Card>
-                        <AmountDisplay
-                            label="Presupuesto"
-                            amount={state.budget}
-                        />
+                        <BudgetEditor />
                     </Card>
                     <Card>
                         <AmountDisplay
