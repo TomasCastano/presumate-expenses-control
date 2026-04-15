@@ -72,7 +72,7 @@ const BudgetEditor = () => {
                             setNewBudget(state.budget)
                             setIsEditingBudget(true)
                         }}
-                        className="text-secondary/50 hover:text-primary opacity-0 group-hover:opacity-100 transition-all p-2 rounded-full hover:bg-primary/10"
+                        className="cursor-pointer text-secondary/50 hover:text-primary opacity-0 group-hover:opacity-100 transition-all p-2 rounded-full hover:bg-primary/10"
                         title="Editar Presupuesto"
                         aria-label="Editar Presupuesto"
                     >
